@@ -106,7 +106,7 @@
         /* --- HEADER --- */
         .main-header {
             display: flex;
-            justify-content: space-between;
+            justify-content: center;
             align-items: center;
             padding: 0 25px;
             height: 100px;
@@ -114,9 +114,16 @@
             width: 100%;
             top: 0;
             z-index: 10;
-            background-color: rgba(30, 42, 43, 0.85); /* Updated RGBA for bg-color */
+            background-color: rgba(30, 42, 43, 0.85);
             backdrop-filter: blur(10px);
             transition: top 0.3s;
+        }
+        
+        .main-header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
         }
 
         .logo {
@@ -125,6 +132,10 @@
             color: var(--accent-color);
             text-decoration: none;
             font-weight: 700;
+        }
+
+        .main-nav {
+            display: none; /* Hidden on mobile */
         }
 
         .main-nav ul {
@@ -150,7 +161,33 @@
             color: var(--accent-color);
         }
         
-        .hamburger { display: none; }
+        .hamburger { 
+            display: block;
+            cursor: pointer;
+        }
+        
+        .mobile-nav {
+            position: fixed;
+            top: 0;
+            right: -100%;
+            height: 100vh;
+            width: min(75vw, 400px);
+            background-color: var(--card-bg);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            transition: right 0.3s ease-in-out;
+            box-shadow: -10px 0px 30px -15px rgba(2,12,27,0.7);
+        }
+        .mobile-nav.active {
+            right: 0;
+        }
+        .mobile-nav ul {
+            flex-direction: column;
+            gap: 30px;
+            list-style: none;
+        }
 
         /* --- HERO SECTION --- */
         #hero {
@@ -486,36 +523,39 @@
         }
 
         /* --- RESPONSIVE DESIGN --- */
-        @media (max-width: 1080px) {
-            .container { padding: 0 50px; }
-            .social-links { display: none; }
+        @media (min-width: 769px) { /* Desktop Styles */
+            .hamburger {
+                display: none;
+            }
+            .main-nav {
+                display: flex;
+                flex: 1;
+            }
+            .main-nav.nav-left {
+                justify-content: flex-start;
+            }
+            .main-nav.nav-right {
+                justify-content: flex-end;
+            }
+            .logo {
+                position: absolute;
+                left: 50%;
+                transform: translateX(-50%);
+            }
         }
+
         @media (max-width: 768px) {
             .container { padding: 0 25px; }
             .main-nav {
-                position: fixed;
-                top: 0;
-                right: -100%;
-                height: 100vh;
-                width: min(75vw, 400px);
-                background-color: var(--card-bg);
-                flex-direction: column;
-                justify-content: center;
-                align-items: center;
-                transition: right 0.3s ease-in-out;
-                box-shadow: -10px 0px 30px -15px rgba(2,12,27,0.7);
+                display: none;
             }
-            .main-nav.active {
-                right: 0;
-            }
-            .main-nav ul {
-                flex-direction: column;
-                gap: 30px;
+            .logo {
+                position: static;
+                transform: none;
             }
             .hamburger {
-                display: block;
-                z-index: 11;
-                cursor: pointer;
+                position: absolute;
+                right: 25px;
             }
             #about .container-inner, #experience .container-inner {
                 grid-template-columns: 1fr;
@@ -579,14 +619,18 @@
 
     <header class="main-header" id="main-header">
         <div class="container">
-            <a href="#" class="logo">GR</a>
-            <nav class="main-nav" id="main-nav">
+            <nav class="main-nav nav-left">
                 <ul>
                     <li><a href="#about"><span class="nav-number">01.</span> About</a></li>
                     <li><a href="#experience"><span class="nav-number">02.</span> Experience</a></li>
+                </ul>
+            </nav>
+            <a href="#" class="logo">GR</a>
+            <nav class="main-nav nav-right">
+                <ul>
                     <li><a href="#projects"><span class="nav-number">03.</span> Projects</a></li>
                     <li><a href="#contact"><span class="nav-number">04.</span> Contact</a></li>
-                    <li><a href="Giridhera Ramanan Resume.pdf" class="btn" target="_blank">Resume</a></li>
+                    <li><a href="Giridhera-Ramanan-Resume.pdf" class="btn" target="_blank">Resume</a></li>
                 </ul>
             </nav>
             <div class="hamburger" id="hamburger">
@@ -594,6 +638,16 @@
             </div>
         </div>
     </header>
+
+    <div class="mobile-nav" id="mobile-nav">
+        <ul>
+            <li><a href="#about">About</a></li>
+            <li><a href="#experience">Experience</a></li>
+            <li><a href="#projects">Projects</a></li>
+            <li><a href="#contact">Contact</a></li>
+            <li><a href="Giridhera-Ramanan-Resume.pdf" class="btn" target="_blank">Resume</a></li>
+        </ul>
+    </div>
 
     <ul class="social-links">
         <li><a href="https://github.com/WeirdoWrench" target="_blank" aria-label="GitHub"><i data-feather="github"></i></a></li>
@@ -785,14 +839,14 @@
 
         // --- Mobile Navigation ---
         const hamburger = document.getElementById('hamburger');
-        const nav = document.getElementById('main-nav');
+        const mobileNav = document.getElementById('mobile-nav');
         hamburger.addEventListener('click', () => {
-            nav.classList.toggle('active');
+            mobileNav.classList.toggle('active');
         });
         
-        document.querySelectorAll('#main-nav a').forEach(link => {
+        document.querySelectorAll('.mobile-nav a').forEach(link => {
             link.addEventListener('click', () => {
-                nav.classList.remove('active');
+                mobileNav.classList.remove('active');
             });
         });
 
