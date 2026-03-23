@@ -28,7 +28,7 @@
         body {
             background-color: var(--bg-base);
             color: var(--text-main);
-            overflow-x: hidden;
+            overflow-x: hidden; /* Prevents horizontal scroll bugs */
             line-height: 1.6;
         }
 
@@ -71,6 +71,10 @@
             font-weight: 700;
             font-size: 1.2rem;
             letter-spacing: 1px;
+        }
+        .nav-links {
+            display: flex;
+            align-items: center;
         }
         .nav-links a {
             color: var(--text-dim);
@@ -115,7 +119,7 @@
         }
 
         h1 {
-            font-size: clamp(2.5rem, 5vw, 4.5rem);
+            font-size: clamp(2.2rem, 5vw, 4.5rem);
             font-weight: 700;
             line-height: 1.1;
             margin-bottom: 1.5rem;
@@ -127,6 +131,12 @@
             font-size: 1.15rem;
             margin-bottom: 2.5rem;
             max-width: 500px;
+        }
+
+        .btn-container {
+            display: flex; 
+            gap: 1rem; 
+            flex-wrap: wrap;
         }
 
         .btn {
@@ -236,6 +246,7 @@
             justify-content: space-between;
             align-items: flex-start;
             margin-bottom: 1rem;
+            gap: 1rem;
         }
 
         .card-tag {
@@ -259,6 +270,7 @@
             padding: 0.3rem 0.8rem;
             border-radius: 50px;
             border: 1px solid rgba(255,255,255,0.05);
+            white-space: nowrap;
         }
         
         .project-link:hover {
@@ -322,7 +334,6 @@
             padding: 2.5rem 0;
         }
 
-        /* Fade edges for the marquee */
         .marquee-container::before,
         .marquee-container::after {
             content: '';
@@ -422,20 +433,51 @@
             100% { transform: translateX(-50%); }
         }
 
-        /* Responsive */
+        /* =========================================
+           MOBILE RESPONSIVENESS (Media Queries)
+           ========================================= */
+
+        /* Tablets & Smaller Laptops */
         @media (max-width: 900px) {
-            .hero { grid-template-columns: 1fr; text-align: center; }
+            .hero { grid-template-columns: 1fr; text-align: center; gap: 2rem; margin-bottom: 4rem; }
             .hero-text { order: 2; }
-            .hero-image-wrapper { order: 1; max-width: 350px; margin: 0 auto; }
+            .hero-image-wrapper { order: 1; max-width: 320px; margin: 0 auto; }
             .bio { margin: 0 auto 2rem auto; }
-            .hero .btn-container { justify-content: center; }
+            .btn-container { justify-content: center; }
+            
             .bento-grid { grid-template-columns: 1fr; }
             .card-wide { grid-column: span 1; }
+            
             .marquee-container::before, .marquee-container::after { width: 50px; }
             .tech-logo { font-size: 2.5rem; margin: 0 1.5rem; }
         }
-        @media (max-width: 480px) {
-            .nav-links { display: none; /* Hide standard links on very small screens, keep logo */ }
+
+        /* Mobile Phones */
+        @media (max-width: 600px) {
+            .container { padding: 1.5rem 5%; }
+            
+            /* Responsive Navigation */
+            nav { flex-direction: column; gap: 1rem; }
+            .nav-links { margin-left: 0; display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center; }
+            .nav-links a { margin-left: 0; font-size: 0.9rem; }
+            
+            /* Typography & Spacing */
+            h1 { font-size: 2.2rem; }
+            .bio { font-size: 1rem; }
+            .section-title { font-size: 1.6rem; margin-bottom: 1.5rem; }
+            
+            /* Full Width Buttons */
+            .btn-container { flex-direction: column; width: 100%; }
+            .btn { width: 100%; justify-content: center; }
+            
+            /* Compact Cards */
+            .glass-card { padding: 1.5rem; }
+            .card-header { flex-direction: column; align-items: flex-start; gap: 0.8rem; }
+            .card-title { font-size: 1.3rem; }
+            
+            /* Smaller Marquee */
+            .tech-logo { font-size: 2rem; margin: 0 1rem; }
+            .marquee-container { padding: 1.5rem 0; }
         }
     </style>
 </head>
@@ -449,7 +491,9 @@
             <div class="logo">G.R.</div>
             <div class="nav-links">
                 <a href="#work">Work</a>
+                <a href="https://linkedin.com/in/giridhera-ramanan" target="_blank">LinkedIn</a>
                 <a href="https://github.com/WeirdoWrench" target="_blank">GitHub</a>
+                <a href="GR_Resume_.pdf" target="_blank" class="resume-link">Resume</a>
             </div>
         </nav>
 
@@ -461,13 +505,11 @@
                     Proficient in Python and Java, I apply technical rigor to debugging, dataset optimization, and building scalable software solutions. Thriving in the startup ecosystem to deliver high-impact results.
                 </p>
                 
-                <div class="btn-container" style="display: flex; gap: 1rem; flex-wrap: wrap;">
-                    
+                <div class="btn-container">
                     <a href="GR_Resume_.pdf" target="_blank" class="btn btn-primary">
                         <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
                         Resume
                     </a>
-                    
                     <a href="mailto:giridheran007@gmail.com" class="btn">
                         <i class="devicon-google-plain"></i> Email
                     </a>
