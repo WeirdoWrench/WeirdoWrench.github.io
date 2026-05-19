@@ -56,3 +56,7 @@ async def startup():
 async def ask(body: Question):
     answer = chain.invoke({"resume": resume_text, "input": body.question})
     return {"answer": answer}
+
+@app.get("/")
+async def root():
+    return {"status": "ok", "message": "Resume RAG API is running"}
