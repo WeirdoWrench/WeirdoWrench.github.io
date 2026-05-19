@@ -1,4 +1,5 @@
 fastapi
+fastembed
 uvicorn
 langchain
 langchain-community
