@@ -1054,7 +1054,7 @@
       <div style="padding:14px 16px; background:var(--accent-solid);
                   color:white; font-weight:600; font-family:'Space Grotesk',sans-serif;
                   display:flex; justify-content:space-between; align-items:center;">
-        <span>🧠 Ask about Giridhera</span>
+        <span>Ask about Giridhera Ramanan</span>
         <span onclick="toggleChat()"
               style="cursor:pointer; font-size:18px; opacity:0.8; line-height:1;">✕</span>
       </div>
@@ -1067,7 +1067,7 @@
         <div style="background:var(--glass-bg); border:1px solid var(--glass-border);
                     color:var(--text-dim); padding:10px 12px;
                     border-radius:10px; font-size:13px; line-height:1.5;">
-          Hi! I'm Giridhera's AI assistant. Ask me about his skills, projects, or experience!
+          Hi! I'm Giridheran's AI assistant. Ask me about his skills, projects, or experience!
         </div>
       </div>
 
@@ -1088,14 +1088,14 @@
 
     <script>
       const API = "https://portfolio-rag-01nh.onrender.com/ask";
-
+    
       function toggleChat() {
         const w = document.getElementById("chat-window");
         const isHidden = w.style.display === "none" || w.style.display === "";
         w.style.display = isHidden ? "flex" : "none";
         if (isHidden) document.getElementById("chat-input").focus();
       }
-
+    
       async function sendMessage() {
         const input = document.getElementById("chat-input");
         const question = input.value.trim();
@@ -1117,7 +1117,22 @@
           appendMessage("Something went wrong. Try again!", "bot");
         }
       }
-
+    
+      function renderMarkdown(text) {
+        return text
+          // Bold
+          .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+          // Bullet points (•, -, *)
+          .replace(/^[\•\-\*]\s+(.+)/gm, '<li>$1</li>')
+          // Numbered list
+          .replace(/^\d+\.\s+(.+)/gm, '<li>$1</li>')
+          // Wrap consecutive <li> in <ul>
+          .replace(/(<li>.*<\/li>(\n|$))+/g, match => `<ul style="margin:6px 0 6px 14px; padding:0;">${match}</ul>`)
+          // Line breaks (double newline = paragraph gap)
+          .replace(/\n{2,}/g, '<br><br>')
+          .replace(/\n/g, '<br>');
+      }
+    
       function appendMessage(text, role, id = "") {
         const box = document.getElementById("chat-messages");
         const div = document.createElement("div");
@@ -1129,16 +1144,20 @@
           padding: 10px 12px;
           border-radius: ${role === "user" ? "10px 10px 2px 10px" : "10px 10px 10px 2px"};
           font-size: 13px;
-          line-height: 1.5;
+          line-height: 1.6;
           align-self: ${role === "user" ? "flex-end" : "flex-start"};
           max-width: 85%;
           font-family: 'Outfit', sans-serif;
         `;
-        div.textContent = text;
+        if (role === "bot" && id !== "thinking") {
+          div.innerHTML = renderMarkdown(text);
+        } else {
+          div.textContent = text;
+        }
         box.appendChild(div);
         box.scrollTop = box.scrollHeight;
       }
-
+    
       function removeThinking() {
         const t = document.getElementById("thinking");
         if (t) t.remove();
